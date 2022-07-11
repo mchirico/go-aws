@@ -7,7 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/iam"
 )
 
-func CreateKey(cfg aws.Config, userName string) (*iam.CreateAccessKeyOutput, error) {
+func CreateAccessKey(cfg aws.Config, userName string) (*iam.CreateAccessKeyOutput, error) {
 	client := iam.NewFromConfig(cfg)
 	input := &iam.CreateAccessKeyInput{
 		UserName: &userName,
@@ -49,6 +49,16 @@ func GetAccountSummary(cfg aws.Config) (*iam.GetAccountSummaryOutput, error) {
 	input := &iam.GetAccountSummaryInput{}
 	return client.GetAccountSummary(context.TODO(), input)
 
+}
+
+func ListAttachedGroupPolicies(cfg aws.Config, input *iam.ListAttachedGroupPoliciesInput) (*iam.ListAttachedGroupPoliciesOutput, error) {
+	client := iam.NewFromConfig(cfg)
+	return client.ListAttachedGroupPolicies(context.TODO(), input)
+}
+
+func ListAttachedRolePolicies(cfg aws.Config, input *iam.ListAttachedRolePoliciesInput) (*iam.ListAttachedRolePoliciesOutput, error) {
+	client := iam.NewFromConfig(cfg)
+	return client.ListAttachedRolePolicies(context.TODO(), input)
 }
 
 func CreateUser(cfg aws.Config, input *iam.CreateUserInput) (*iam.CreateUserOutput, error) {

@@ -45,7 +45,7 @@ func TestCreateUsers(t *testing.T) {
 func TestCreateKey(t *testing.T) {
 	userName := "go-aws"
 
-	result, err := CreateKey(client.Config(), userName)
+	result, err := CreateAccessKey(client.Config(), userName)
 	if err != nil {
 		t.Fatal(err)
 	}
