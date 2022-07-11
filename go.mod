@@ -10,6 +10,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/cloudwatch v1.18.6
 	github.com/aws/aws-sdk-go-v2/service/costexplorer v1.19.2
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.15.9
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.48.0
 	github.com/aws/aws-sdk-go-v2/service/iam v1.18.9
 	github.com/aws/aws-sdk-go-v2/service/kinesis v1.15.9
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.27.1
