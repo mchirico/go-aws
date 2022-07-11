@@ -1,6 +1,7 @@
 package iam
 
 import (
+	"errors"
 	"fmt"
 	"testing"
 
@@ -46,6 +47,45 @@ func TestCreateKey(t *testing.T) {
 	userName := "go-aws"
 
 	result, err := CreateAccessKey(client.Config(), userName)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	fmt.Println(result)
+
+}
+
+func TestListKey(t *testing.T) {
+	userName := "go-aws"
+
+	result, err := ListAccessKeys(client.Config(), userName)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, v := range result.AccessKeyMetadata {
+		fmt.Println(*v.AccessKeyId)
+	}
+
+}
+
+func GetKeyId(userName string) (string, error) {
+	result, err := ListAccessKeys(client.Config(), userName)
+	if err != nil {
+		return "", err
+	}
+	for _, v := range result.AccessKeyMetadata {
+		return *v.AccessKeyId, nil
+	}
+	return "", errors.New("No key found")
+}
+
+func TestDeleteKey(t *testing.T) {
+	userName := "go-aws"
+	key, err := GetKeyId(userName)
+	if err != nil {
+		t.Fatal(err)
+	}
+	result, err := DeleteAccessKey(client.Config(), userName, key)
 	if err != nil {
 		t.Fatal(err)
 	}

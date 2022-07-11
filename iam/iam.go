@@ -16,11 +16,23 @@ func CreateAccessKey(cfg aws.Config, userName string) (*iam.CreateAccessKeyOutpu
 
 }
 
+func ListAccessKeys(cfg aws.Config, userName string) (*iam.ListAccessKeysOutput, error) {
+	client := iam.NewFromConfig(cfg)
+	var max int32 = 10
+	input := &iam.ListAccessKeysInput{
+		MaxItems: &max,
+		UserName: &userName,
+	}
+
+	return client.ListAccessKeys(context.TODO(), input)
+
+}
+
 func DeleteAccessKey(cfg aws.Config, userName, keyId string) (*iam.DeleteAccessKeyOutput, error) {
 	client := iam.NewFromConfig(cfg)
 	input := &iam.DeleteAccessKeyInput{
-		AccessKeyId: new(string),
-		UserName:    new(string),
+		AccessKeyId: &keyId,
+		UserName:    &userName,
 	}
 	return client.DeleteAccessKey(context.TODO(), input)
 
