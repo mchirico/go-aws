@@ -98,3 +98,16 @@ func TestDeleteUser(t *testing.T) {
 	fmt.Println(result)
 
 }
+
+func TestGetAccountSummary(t *testing.T) {
+
+	result, err := GetAccountSummary(client.Config())
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for k, v := range result.SummaryMap {
+		fmt.Println(k, v)
+	}
+
+}

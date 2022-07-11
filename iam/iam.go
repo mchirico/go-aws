@@ -43,6 +43,14 @@ func ListUsers(cfg aws.Config, input *iam.ListUsersInput) (*iam.ListUsersOutput,
 
 }
 
+// General account
+func GetAccountSummary(cfg aws.Config) (*iam.GetAccountSummaryOutput, error) {
+	client := iam.NewFromConfig(cfg)
+	input := &iam.GetAccountSummaryInput{}
+	return client.GetAccountSummary(context.TODO(), input)
+
+}
+
 func CreateUser(cfg aws.Config, input *iam.CreateUserInput) (*iam.CreateUserOutput, error) {
 	client := iam.NewFromConfig(cfg)
 	return client.CreateUser(context.TODO(), input)
