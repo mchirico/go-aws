@@ -21,3 +21,5 @@ lambda/main.zip
 lambda/o
 lambda/prog/function.zip
 lambda/prog/main
+lambda/prog-kinesis/function.zip
+lambda/prog-kinesis/main
