@@ -8,6 +8,7 @@ package iam
 
 import (
 	"context"
+	"errors"
 	"os"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -57,6 +58,33 @@ func (i *I) ListAttachedGroupPolicies(group string) (*iam.ListAttachedGroupPolic
 
 	return client.ListAttachedGroupPolicies(context.TODO(), input)
 
+}
+
+func (i *I) ListRoles() (*iam.ListRolesOutput, error) {
+	client := iam.NewFromConfig(i.cfg)
+
+	input := &iam.ListRolesInput{
+		MaxItems: &i.max,
+	}
+	return client.ListRoles(context.TODO(), input)
+}
+
+func (i *I) GetRole(role string) (*string, error) {
+	client := iam.NewFromConfig(i.cfg)
+
+	input := &iam.ListRolesInput{
+		MaxItems: &i.max,
+	}
+	result, err := client.ListRoles(context.TODO(), input)
+	if err != nil {
+		return nil, err
+	}
+	for _, v := range result.Roles {
+		if *v.RoleName == role {
+			return v.Arn, nil
+		}
+	}
+	return nil, errors.New("not found")
 }
 
 func (i *I) createUser(input *iam.CreateUserInput) (*iam.CreateUserOutput, error) {

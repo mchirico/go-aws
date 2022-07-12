@@ -51,3 +51,23 @@ func TestI_AccessReport(t *testing.T) {
 	fmt.Println(string(result.Content))
 
 }
+
+func TestI_Roles(t *testing.T) {
+	i := NewI("k8s")
+	result, err := i.ListRoles()
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(result)
+
+}
+
+func TestI_GetRole(t *testing.T) {
+	i := NewI("k8s")
+	result, err := i.GetRole("Test-Role")
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(*result)
+
+}
