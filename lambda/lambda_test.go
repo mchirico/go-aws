@@ -19,15 +19,13 @@ func TestCreate(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	Create(client.Config(), "prog2", "main", "main.zip",
+	err = Create(client.Config(), "prog2", "main", "main.zip",
 		128,
 		10, *role)
-	json := `{
-		"name": "value1",
-		"age": 59
-	  }
-	`
-	Invoke(client.Config(), "prog2", json)
+
+	if err != nil {
+		t.Fatal(err)
+	}
 
 }
 
@@ -46,7 +44,7 @@ func TestInvoke(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	
+
 	fmt.Println(result)
 
 }

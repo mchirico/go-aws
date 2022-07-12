@@ -17,7 +17,7 @@ type MyResponse struct {
 
 func HandleLambdaEvent(event MyEvent) (MyResponse, error) {
 	kinesis.Put()
-	return MyResponse{Message: fmt.Sprintf("v2 %s is %d years old!", event.Name, event.Age)}, nil
+	return MyResponse{Message: fmt.Sprintf("kinesis %s is %d years old!", event.Name, event.Age)}, nil
 }
 
 func main() {

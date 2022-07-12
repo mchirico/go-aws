@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
+
 	"github.com/mchirico/go-aws/client"
 
 	"github.com/aws/aws-sdk-go-v2/service/kinesis"
