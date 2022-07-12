@@ -13,3 +13,11 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# Special
+
+lambda/main
+lambda/main.zip
+lambda/o
+lambda/prog/function.zip
+lambda/prog/main
