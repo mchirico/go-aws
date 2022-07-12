@@ -8,9 +8,11 @@ package iam
 
 import (
 	"context"
+	"os"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/iam"
+	"github.com/mchirico/go-aws/client"
 )
 
 type I struct {
@@ -20,7 +22,8 @@ type I struct {
 }
 
 func NewI(userName string) *I {
-	return &I{userName: userName, max: 50}
+	cfg := client.Config()
+	return &I{userName: userName, max: 50, cfg: cfg}
 }
 
 func (i *I) CreateAccessKey() (*iam.CreateAccessKeyOutput, error) {
@@ -34,6 +37,7 @@ func (i *I) CreateAccessKey() (*iam.CreateAccessKeyOutput, error) {
 
 func (i *I) ListAccessKeys() (*iam.ListAccessKeysOutput, error) {
 	client := iam.NewFromConfig(i.cfg)
+
 	input := &iam.ListAccessKeysInput{
 		MaxItems: &i.max,
 		UserName: &i.userName,
@@ -43,7 +47,23 @@ func (i *I) ListAccessKeys() (*iam.ListAccessKeysOutput, error) {
 
 }
 
+func (i *I) ListAttachedGroupPolicies(group string) (*iam.ListAttachedGroupPoliciesOutput, error) {
+	client := iam.NewFromConfig(i.cfg)
+
+	input := &iam.ListAttachedGroupPoliciesInput{
+		GroupName: &group,
+		MaxItems:  &i.max,
+	}
+
+	return client.ListAttachedGroupPolicies(context.TODO(), input)
+
+}
+
 func (i *I) createUser(input *iam.CreateUserInput) (*iam.CreateUserOutput, error) {
 	client := iam.NewFromConfig(i.cfg)
 	return client.CreateUser(context.TODO(), input)
+}
+
+func WriteFile(file string, data []byte) error {
+	return os.WriteFile(file, data, 0644)
 }
