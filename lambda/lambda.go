@@ -131,3 +131,27 @@ func Invoke(cfg aws.Config, name, json string) (string, error) {
 	return string(result.Payload), nil
 
 }
+
+func ListFunctions(cfg aws.Config, max int32) (*lambda.ListFunctionsOutput, error) {
+	client := lambda.NewFromConfig(cfg)
+	input := &lambda.ListFunctionsInput{
+		MaxItems: &max,
+	}
+
+	result, err := client.ListFunctions(context.TODO(), input)
+	if err != nil {
+		return result, err
+	}
+	return result, err
+
+}
+
+func GetFunctionConfiguration(cfg aws.Config, functionName string) (*lambda.GetFunctionConfigurationOutput, error) {
+	client := lambda.NewFromConfig(cfg)
+	input := &lambda.GetFunctionConfigurationInput{
+		FunctionName: &functionName,
+	}
+
+	return client.GetFunctionConfiguration(context.TODO(), input)
+
+}

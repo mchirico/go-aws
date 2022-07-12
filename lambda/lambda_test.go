@@ -33,6 +33,22 @@ func TestDelete(t *testing.T) {
 	Delete(client.Config(), "prog2")
 }
 
+func Test_ListFunctions(t *testing.T) {
+	result, err := ListFunctions(client.Config(), 30)
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(result)
+}
+
+func TestFuncConfig(t *testing.T) {
+	result, err := GetFunctionConfiguration(client.Config(), "prog2")
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(result)
+}
+
 func TestInvoke(t *testing.T) {
 
 	json := `{
