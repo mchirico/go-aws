@@ -15,4 +15,4 @@ https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/gov2
 ## Tagging
 
 ```bash
-git tag -a v0.0.1 -m "alpha"
+git tag -a v0.0.2 -m "lambda..patch"
