@@ -12,3 +12,7 @@ This repo if for an article on Go and AWS... it's scratch work, subject to chang
 https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/gov2
 
 
+## Tagging
+
+```bash
+git tag -a v0.0.1 -m "alpha"
