@@ -13,6 +13,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.48.0
 	github.com/aws/aws-sdk-go-v2/service/iam v1.18.9
 	github.com/aws/aws-sdk-go-v2/service/kinesis v1.15.9
+	github.com/aws/aws-sdk-go-v2/service/lambda v1.23.4
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.27.1
 )
 
