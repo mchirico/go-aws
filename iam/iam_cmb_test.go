@@ -40,3 +40,14 @@ func TestI_ListAttachedGroupPolicies(t *testing.T) {
 	}
 
 }
+
+func TestI_AccessReport(t *testing.T) {
+	i := NewI("k8s")
+	result, err := i.AccessReport()
+	if err != nil {
+		t.Fatal(err)
+	}
+	WriteFile("/tmp/report.csv", result.Content)
+	fmt.Println(string(result.Content))
+
+}

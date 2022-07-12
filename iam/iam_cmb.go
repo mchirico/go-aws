@@ -64,6 +64,14 @@ func (i *I) createUser(input *iam.CreateUserInput) (*iam.CreateUserOutput, error
 	return client.CreateUser(context.TODO(), input)
 }
 
+func (i *I) AccessReport() (*iam.GetCredentialReportOutput, error) {
+	client := iam.NewFromConfig(i.cfg)
+	input := &iam.GetCredentialReportInput{}
+
+	return client.GetCredentialReport(context.TODO(), input)
+
+}
+
 func WriteFile(file string, data []byte) error {
 	return os.WriteFile(file, data, 0644)
 }
