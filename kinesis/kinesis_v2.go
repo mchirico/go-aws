@@ -61,3 +61,8 @@ func (p *P) Put(key string, data []byte) (*kinesis.PutRecordOutput, error) {
 	}
 	return Put(p.client, input)
 }
+
+func (p *P) Register(consumerName string, streamARN string) (*kinesis.RegisterStreamConsumerOutput, error) {
+
+	return Register(p.client, consumerName, streamARN)
+}

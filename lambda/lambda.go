@@ -155,3 +155,9 @@ func GetFunctionConfiguration(cfg aws.Config, functionName string) (*lambda.GetF
 	return client.GetFunctionConfiguration(context.TODO(), input)
 
 }
+
+func CreateEventSourceMapping(cfg aws.Config, input *lambda.CreateEventSourceMappingInput) (*lambda.CreateEventSourceMappingOutput, error) {
+	client := lambda.NewFromConfig(cfg)
+	return client.CreateEventSourceMapping(context.TODO(), input)
+
+}

@@ -121,3 +121,15 @@ func Delete(cfg aws.Config, name string) (*kinesis.DeleteStreamOutput, error) {
 	return client.DeleteStream(context.TODO(), input)
 
 }
+
+func Register(cfg aws.Config, consumerName, streamARN string) (*kinesis.RegisterStreamConsumerOutput, error) {
+
+	input := &kinesis.RegisterStreamConsumerInput{
+		ConsumerName: &consumerName,
+		StreamARN:    &streamARN,
+	}
+
+	client := kinesis.NewFromConfig(cfg)
+	return client.RegisterStreamConsumer(context.TODO(), input)
+
+}
