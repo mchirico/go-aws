@@ -31,7 +31,10 @@ func TestCreate(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	Delete(client.Config(), "prog2")
+	err := Delete(client.Config(), "prog2")
+	if err != nil {
+		t.Fatal(err)
+	}
 }
 
 func Test_ListFunctions(t *testing.T) {
@@ -41,6 +44,15 @@ func Test_ListFunctions(t *testing.T) {
 	}
 	fmt.Println(result)
 }
+
+func Test_ListEvents(t *testing.T) {
+	result, err := ListEvents(client.Config(), "prog2")
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(result)
+}
+
 
 func TestFuncConfig(t *testing.T) {
 	result, err := GetFunctionConfiguration(client.Config(), "prog2")
