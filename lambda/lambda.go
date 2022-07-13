@@ -146,6 +146,17 @@ func ListFunctions(cfg aws.Config, max int32) (*lambda.ListFunctionsOutput, erro
 
 }
 
+func UpdateFunctionConfiguration(cfg aws.Config, input *lambda.UpdateFunctionConfigurationInput) (*lambda.UpdateFunctionConfigurationOutput, error) {
+	client := lambda.NewFromConfig(cfg)
+
+	result, err := client.UpdateFunctionConfiguration(context.TODO(), input)
+	if err != nil {
+		return result, err
+	}
+	return result, err
+
+}
+
 func GetFunctionConfiguration(cfg aws.Config, functionName string) (*lambda.GetFunctionConfigurationOutput, error) {
 	client := lambda.NewFromConfig(cfg)
 	input := &lambda.GetFunctionConfigurationInput{

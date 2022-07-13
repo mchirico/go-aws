@@ -2,6 +2,7 @@ package lambda
 
 import (
 	"fmt"
+
 	"github.com/mchirico/go-aws/client"
 	"github.com/mchirico/go-aws/iam"
 	"testing"
