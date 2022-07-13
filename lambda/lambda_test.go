@@ -65,7 +65,7 @@ func TestInvoke(t *testing.T) {
 
 	json := `{
 		"name": "mike",
-		"age": 12
+		"age": 120
 	  }
 	`
 	result, err := Invoke(client.Config(), "prog2", json)
