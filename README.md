@@ -14,6 +14,8 @@ https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/gov2
 ## References
 https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html
 
+
+https://aws.amazon.com/premiumsupport/knowledge-center/kinesis-data-streams-lambda-invocation/
 ## Tagging
 
 ```bash
