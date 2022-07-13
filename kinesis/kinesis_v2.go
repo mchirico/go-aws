@@ -8,12 +8,14 @@ import (
 	"github.com/mchirico/go-aws/client"
 
 	"github.com/aws/aws-sdk-go-v2/service/kinesis"
+	"github.com/aws/aws-sdk-go-v2/service/kinesis/types"
 )
 
 type P struct {
 	seq        int64
 	client     aws.Config
 	name       *string
+	streamARN  *string
 	shardCount *int32
 }
 
@@ -42,10 +44,36 @@ func (p *P) Create() (*kinesis.CreateStreamOutput, error) {
 		ShardCount: p.shardCount,
 	}
 	return Create(p.client, input)
+
 }
 
 func (p *P) Get() (*kinesis.GetRecordsOutput, error) {
 	return Get(p.client, *p.name)
+}
+
+func (p *P) List() (*kinesis.ListStreamsOutput, error) {
+	var max int32 = 10
+	input := &kinesis.ListStreamsInput{
+		Limit: &max,
+	}
+	return List(p.client, input)
+}
+
+func (p *P) DescribeStream() (*kinesis.DescribeStreamOutput, error) {
+	var max int32 = 10
+	input := &kinesis.DescribeStreamInput{
+		StreamName: p.name,
+		Limit:      &max,
+	}
+	return DescribeStream(p.client, input)
+}
+
+func (p *P) StreamARN() (*string, error) {
+	result, err := p.DescribeStream()
+	if err != nil {
+		return nil, err
+	}
+	return result.StreamDescription.StreamARN, nil
 }
 
 func (p *P) Delete() (*kinesis.DeleteStreamOutput, error) {
@@ -60,6 +88,17 @@ func (p *P) Put(key string, data []byte) (*kinesis.PutRecordOutput, error) {
 		SequenceNumberForOrdering: p.seqOrder(),
 	}
 	return Put(p.client, input)
+}
+
+func (p *P) SubscribeToShard() (*kinesis.SubscribeToShardOutput, error) {
+	shardId := "shardId-000000000000"
+	var startPosition types.StartingPosition
+	startPosition.Type = "TRIM_HORIZON"
+	input := &kinesis.SubscribeToShardInput{
+		ShardId:          &shardId,
+		StartingPosition: &startPosition,
+	}
+	return SubscribeToShard(p.client, input)
 }
 
 func (p *P) Register(consumerName string, streamARN string) (*kinesis.RegisterStreamConsumerOutput, error) {

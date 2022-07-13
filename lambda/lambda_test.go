@@ -53,7 +53,6 @@ func Test_ListEvents(t *testing.T) {
 	fmt.Println(result)
 }
 
-
 func TestFuncConfig(t *testing.T) {
 	result, err := GetFunctionConfiguration(client.Config(), "prog2")
 	if err != nil {
@@ -66,7 +65,7 @@ func TestInvoke(t *testing.T) {
 
 	json := `{
 		"name": "mike",
-		"age": 60
+		"age": 12
 	  }
 	`
 	result, err := Invoke(client.Config(), "prog2", json)

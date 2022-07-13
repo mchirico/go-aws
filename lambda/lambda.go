@@ -149,7 +149,6 @@ func ListFunctions(cfg aws.Config, max int32) (*lambda.ListFunctionsOutput, erro
 func UpdateFunctionConfiguration(cfg aws.Config, input *lambda.UpdateFunctionConfigurationInput) (*lambda.UpdateFunctionConfigurationOutput, error) {
 	client := lambda.NewFromConfig(cfg)
 
-   
 	result, err := client.UpdateFunctionConfiguration(context.TODO(), input)
 	if err != nil {
 		return result, err
@@ -178,13 +177,11 @@ func ListEvents(cfg aws.Config, functionName string) (*lambda.ListEventSourceMap
 	client := lambda.NewFromConfig(cfg)
 	var max int32 = 10
 	input := &lambda.ListEventSourceMappingsInput{
-		FunctionName:   &functionName,
-		MaxItems:       &max,
+		FunctionName: &functionName,
+		MaxItems:     &max,
 	}
 	return client.ListEventSourceMappings(context.TODO(), input)
 }
-
-
 
 func ListEventSourceMapping(cfg aws.Config, input *lambda.ListEventSourceMappingsInput) (*lambda.ListEventSourceMappingsOutput, error) {
 	client := lambda.NewFromConfig(cfg)

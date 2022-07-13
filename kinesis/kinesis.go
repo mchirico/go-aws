@@ -27,6 +27,18 @@ func List(cfg aws.Config, input *kinesis.ListStreamsInput) (*kinesis.ListStreams
 
 }
 
+func DescribeStream(cfg aws.Config, input *kinesis.DescribeStreamInput) (*kinesis.DescribeStreamOutput, error) {
+
+	client := kinesis.NewFromConfig(cfg)
+	return client.DescribeStream(context.TODO(), input)
+
+}
+
+func SubscribeToShard(cfg aws.Config, input *kinesis.SubscribeToShardInput) (*kinesis.SubscribeToShardOutput, error) {
+	client := kinesis.NewFromConfig(cfg)
+	return client.SubscribeToShard(context.TODO(), input)
+}
+
 func Put(cfg aws.Config, input *kinesis.PutRecordInput) (*kinesis.PutRecordOutput, error) {
 
 	client := kinesis.NewFromConfig(cfg)

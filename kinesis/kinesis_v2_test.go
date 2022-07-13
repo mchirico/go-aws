@@ -16,6 +16,12 @@ func TestNewP(t *testing.T) {
 
 }
 
+func TestNewPCreateonly(t *testing.T) {
+	p := NewP("mmc")
+	p.Create()
+
+}
+
 func TestNewP2(t *testing.T) {
 	p := NewP("mmc2")
 	_, err := p.Create()
@@ -28,8 +34,6 @@ func TestNewP2(t *testing.T) {
 	p.Put("key3", []byte("3. Data 1 2 3..."))
 
 }
-
-
 
 func Test_put(t *testing.T) {
 	p := NewP("mmc")
@@ -68,10 +72,41 @@ func Test_Get(t *testing.T) {
 
 }
 
+func Test_Register(t *testing.T) {
+	p := NewP("mmc2")
+	streamARN, err := p.StreamARN()
+	if err != nil {
+		t.FailNow()
+	}
+	fmt.Println(*streamARN)
+	result, err := p.Register("prog2", *streamARN)
+	if err != nil {
+		t.FailNow()
+	}
+	p.SubscribeToShard()
+	fmt.Println(*result.Consumer)
+}
+
+func Test_Subscribe(t *testing.T) {
+	p := NewP("mmc2")
+	result, err := p.SubscribeToShard()
+	if err != nil {
+		t.FailNow()
+	}
+	fmt.Println(result)
+
+}
+
 func Test_Delete(t *testing.T) {
 	p := NewP("mmc")
 	p.Delete()
 
 	p2 := NewP("mmc2")
 	p2.Delete()
+}
+
+func Test_Delete1(t *testing.T) {
+	p := NewP("mmc")
+	p.Delete()
+
 }
