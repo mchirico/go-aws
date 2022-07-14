@@ -23,5 +23,5 @@ lambda/prog/function.zip
 lambda/prog/main
 lambda/prog-kinesis/function.zip
 lambda/prog-kinesis/main
-prog-kinesis-handler/function.zip
-prog-kinesis-handler/main
+lambda/prog-kinesis-handler/function.zip
+lambda/prog-kinesis-handler/main
