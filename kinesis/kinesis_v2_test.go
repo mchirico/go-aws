@@ -48,7 +48,7 @@ func Test_put(t *testing.T) {
 
 func Test_put2(t *testing.T) {
 	p := NewP("mmc2")
-	p.Put("key", []byte("1. Data 1 2 3..."))
+	p.Put("key-lambda", []byte("Lambda *** TEST ***"))
 	p.Put("key", []byte("2. Data 1 2 3..."))
 	p.Put("key", []byte("3. Data 1 2 3..."))
 	for i := 0; i <= 12; i++ {
