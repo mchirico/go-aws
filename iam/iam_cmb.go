@@ -87,6 +87,34 @@ func (i *I) GetRole(role string) (*string, error) {
 	return nil, errors.New("not found")
 }
 
+func (i *I) AttachRolePolicy(roleName, policyArn string) (*iam.AttachRolePolicyOutput, error) {
+	client := iam.NewFromConfig(i.cfg)
+
+	input := &iam.AttachRolePolicyInput{
+		PolicyArn: &policyArn,
+		RoleName:  &roleName,
+	}
+	return client.AttachRolePolicy(context.TODO(), input)
+
+}
+
+func (i *I) DetachRolePolicy(roleName, policyArn string) (*iam.DetachRolePolicyOutput, error) {
+	client := iam.NewFromConfig(i.cfg)
+
+	input := &iam.DetachRolePolicyInput{
+		PolicyArn: &policyArn,
+		RoleName:  &roleName,
+	}
+	return client.DetachRolePolicy(context.TODO(), input)
+
+}
+
+func (i *I) CreateRole(input *iam.CreateRoleInput) (*iam.CreateRoleOutput, error) {
+	client := iam.NewFromConfig(i.cfg)
+	return client.CreateRole(context.TODO(), input)
+
+}
+
 func (i *I) createUser(input *iam.CreateUserInput) (*iam.CreateUserOutput, error) {
 	client := iam.NewFromConfig(i.cfg)
 	return client.CreateUser(context.TODO(), input)
