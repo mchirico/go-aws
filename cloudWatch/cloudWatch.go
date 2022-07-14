@@ -6,8 +6,9 @@ import (
 	"strconv"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/config"
+
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatch"
+	"github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs"
 )
 
 // CWListMetricsAPI defines the interface for the ListMetrics function.
@@ -31,10 +32,6 @@ func GetMetrics(c context.Context, api CWListMetricsAPI, input *cloudwatch.ListM
 }
 
 func List(cfg aws.Config) {
-	cfg, err := config.LoadDefaultConfig(context.TODO())
-	if err != nil {
-		panic("configuration error, " + err.Error())
-	}
 
 	client := cloudwatch.NewFromConfig(cfg)
 
@@ -62,4 +59,49 @@ func List(cfg aws.Config) {
 	}
 
 	fmt.Println("Found " + strconv.Itoa(numMetrics) + " metrics")
+}
+
+// https://www.youtube.com/watch?v=aZ-gP4rbFDo
+//aws logs tail "/aws/lambda/sns" --follow
+
+func Logs(cfg aws.Config, logGroupName string) {
+
+	client := cloudwatchlogs.NewFromConfig(cfg)
+
+	prefix := "/aws/lambda/"
+	var max int32 = 20
+	dinput := &cloudwatchlogs.DescribeLogGroupsInput{
+		Limit:              &max,
+		LogGroupNamePrefix: &prefix,
+	}
+
+	result, err := client.DescribeLogGroups(context.TODO(), dinput)
+	if err != nil {
+		return
+	}
+
+	fmt.Println(result)
+
+	lgroups := "/aws/lambda/sns"
+	sinput := &cloudwatchlogs.DescribeLogStreamsInput{
+		LogGroupName: &lgroups,
+		Limit:        &max,
+	}
+	r, err := client.DescribeLogStreams(context.TODO(), sinput)
+	if err != nil {
+		return
+	}
+	fmt.Println(r)
+
+	// input := &cloudwatchlogs.GetLogEventsInput{
+	// 	LogGroupName:  &logGroupName,
+	// 	LogStreamName: new(string),
+	// 	EndTime:       new(int64),
+	// 	Limit:         new(int32),
+	// 	NextToken:     new(string),
+	// 	StartFromHead: new(bool),
+	// 	StartTime:     new(int64),
+	// }
+	// client.GetLogEvents(context.TODO(), input)
+
 }
