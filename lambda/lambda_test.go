@@ -76,3 +76,14 @@ func TestInvoke(t *testing.T) {
 	fmt.Println(result)
 
 }
+
+func TestInvoke2(t *testing.T) {
+
+	result, err := Invoke(client.Config(), "prog2", SampleRecord())
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	fmt.Println(result)
+
+}
