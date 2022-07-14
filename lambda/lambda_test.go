@@ -3,9 +3,10 @@ package lambda
 import (
 	"fmt"
 
+	"testing"
+
 	"github.com/mchirico/go-aws/client"
 	"github.com/mchirico/go-aws/iam"
-	"testing"
 )
 
 func TestCreateZip(t *testing.T) {
@@ -79,7 +80,7 @@ func TestInvoke(t *testing.T) {
 
 func TestInvoke2(t *testing.T) {
 
-	result, err := Invoke(client.Config(), "prog2", SampleRecord())
+	result, err := Invoke(client.Config(), "prog2", KinesisExample())
 	if err != nil {
 		t.Fatal(err)
 	}
