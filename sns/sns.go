@@ -93,3 +93,10 @@ func Subs(cfg aws.Config, region, account, topic string) error {
 	}
 	return nil
 }
+
+func Publish(cfg aws.Config, input *sns.PublishInput) (*sns.PublishOutput, error) {
+	client := sns.NewFromConfig(cfg)
+
+	return client.Publish(context.TODO(), input)
+
+}

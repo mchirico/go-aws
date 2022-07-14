@@ -31,6 +31,24 @@ func TestCreate(t *testing.T) {
 
 }
 
+func TestCreateSNS(t *testing.T) {
+
+	i := iam.NewI("appleM1")
+	role, err := i.GetRole("Test-Role")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = Create(client.Config(), "sns", "main", "main.zip",
+		128,
+		10, *role)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+}
+
 func TestDelete(t *testing.T) {
 	err := Delete(client.Config(), "prog2")
 	if err != nil {

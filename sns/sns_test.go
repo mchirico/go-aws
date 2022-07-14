@@ -20,6 +20,22 @@ func TestCreate(t *testing.T) {
 	}
 }
 
+func TestPublish(t *testing.T) {
+
+	topic := "toprog3"
+	topicARN, err := FindARN(client.Config(), topic)
+	subject := "test-subject2"
+	message := "test-message2"
+	input := &sns.PublishInput{
+		Message:  &message,
+		Subject:  &subject,
+		TopicArn: topicARN,
+	}
+	_, err = Publish(client.Config(), input)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
 func TestDelete(t *testing.T) {
 
 	topicArn := "toprog3"
