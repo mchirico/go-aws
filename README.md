@@ -16,6 +16,9 @@ https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html
 
 
 https://aws.amazon.com/premiumsupport/knowledge-center/kinesis-data-streams-lambda-invocation/
+
+
+https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html
 ## Tagging
 
 ```bash
