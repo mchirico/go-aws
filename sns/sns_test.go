@@ -25,7 +25,7 @@ func TestPublish(t *testing.T) {
 	topic := "sns-to-lambda"
 	topicARN, err := FindARN(client.Config(), topic)
 	subject := "test-sns-to-lambda"
-	message := "test-message-1"
+	message := "test-message-10"
 	input := &sns.PublishInput{
 		Message:  &message,
 		Subject:  &subject,
