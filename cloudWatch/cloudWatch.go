@@ -95,7 +95,7 @@ func Logs(cfg aws.Config, lgroups string) {
 		fmt.Println("No LogStreams found")
 		return
 	}
-	logStream := r.LogStreams[0].LogStreamName
+	logStream := r.LogStreams[len(r.LogStreams)-1].LogStreamName
 
 	input := &cloudwatchlogs.GetLogEventsInput{
 		LogGroupName:  &lgroups,
@@ -114,5 +114,11 @@ func GetLogEvents(cfg aws.Config, input *cloudwatchlogs.GetLogEventsInput) {
 	for _, e := range result.Events {
 		fmt.Println(*e.Message)
 	}
+
+}
+
+func DeleteLogStream(cfg aws.Config, input *cloudwatchlogs.DeleteLogStreamInput) (*cloudwatchlogs.DeleteLogStreamOutput, error) {
+	client := cloudwatchlogs.NewFromConfig(cfg)
+	return client.DeleteLogStream(context.TODO(), input)
 
 }

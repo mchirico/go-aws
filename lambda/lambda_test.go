@@ -50,7 +50,7 @@ func TestCreateSNS(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	err := Delete(client.Config(), "prog2")
+	err := Delete(client.Config(), "sns")
 	if err != nil {
 		t.Fatal(err)
 	}

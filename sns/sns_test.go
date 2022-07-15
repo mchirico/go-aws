@@ -10,7 +10,7 @@ import (
 
 func TestCreate(t *testing.T) {
 
-	topic := "toprog3"
+	topic := "sns-to-lambda"
 	input := &sns.CreateTopicInput{
 		Name: &topic,
 	}
@@ -22,10 +22,10 @@ func TestCreate(t *testing.T) {
 
 func TestPublish(t *testing.T) {
 
-	topic := "toprog3"
+	topic := "sns-to-lambda"
 	topicARN, err := FindARN(client.Config(), topic)
-	subject := "test-subject2"
-	message := "test-message2"
+	subject := "test-sns-to-lambda"
+	message := "test-message-0"
 	input := &sns.PublishInput{
 		Message:  &message,
 		Subject:  &subject,
