@@ -100,3 +100,10 @@ func Publish(cfg aws.Config, input *sns.PublishInput) (*sns.PublishOutput, error
 	return client.Publish(context.TODO(), input)
 
 }
+
+func Subscribe(cfg aws.Config, input *sns.SubscribeInput) (*sns.SubscribeOutput, error) {
+	client := sns.NewFromConfig(cfg)
+
+	return client.Subscribe(context.TODO(), input)
+
+}

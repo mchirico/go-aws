@@ -187,3 +187,17 @@ func ListEventSourceMapping(cfg aws.Config, input *lambda.ListEventSourceMapping
 	client := lambda.NewFromConfig(cfg)
 	return client.ListEventSourceMappings(context.TODO(), input)
 }
+
+func GetFunctionEventInvokeConfig(cfg aws.Config, functionName string) (*lambda.GetFunctionEventInvokeConfigOutput, error) {
+	client := lambda.NewFromConfig(cfg)
+	input := &lambda.GetFunctionEventInvokeConfigInput{
+		FunctionName: &functionName,
+	}
+	return client.GetFunctionEventInvokeConfig(context.TODO(), input)
+}
+
+// This is trigger
+func AddPermission(cfg aws.Config, input *lambda.AddPermissionInput) (*lambda.AddPermissionOutput, error) {
+	client := lambda.NewFromConfig(cfg)
+	return client.AddPermission(context.TODO(), input)
+}

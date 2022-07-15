@@ -5,6 +5,7 @@ import (
 
 	"testing"
 
+	"github.com/aws/aws-sdk-go-v2/service/lambda"
 	"github.com/mchirico/go-aws/client"
 	"github.com/mchirico/go-aws/iam"
 )
@@ -65,7 +66,16 @@ func Test_ListFunctions(t *testing.T) {
 }
 
 func Test_ListEvents(t *testing.T) {
-	result, err := ListEvents(client.Config(), "prog2")
+	result, err := ListEvents(client.Config(), "sns")
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(result)
+}
+
+func Test_GetFunctionEventInvokeConfig(t *testing.T) {
+
+	result, err := GetFunctionEventInvokeConfig(client.Config(), "sns")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -73,7 +83,7 @@ func Test_ListEvents(t *testing.T) {
 }
 
 func TestFuncConfig(t *testing.T) {
-	result, err := GetFunctionConfiguration(client.Config(), "prog2")
+	result, err := GetFunctionConfiguration(client.Config(), "sns")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -105,4 +115,22 @@ func TestInvoke2(t *testing.T) {
 
 	fmt.Println(result)
 
+}
+
+func Test_EventSourceMapping(t *testing.T) {
+
+	var max int32 = 10
+	input := &lambda.ListEventSourceMappingsInput{
+		MaxItems: &max,
+	}
+
+	result, err := ListEventSourceMapping(client.Config(), input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(result.EventSourceMappings)
+
+	for _, v := range result.EventSourceMappings {
+		fmt.Println(*v.FunctionArn)
+	}
 }
