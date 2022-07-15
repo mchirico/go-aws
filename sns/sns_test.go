@@ -6,6 +6,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/service/sns"
 	"github.com/mchirico/go-aws/client"
+	"github.com/mchirico/go-aws/lambda"
 )
 
 func TestCreate(t *testing.T) {
@@ -52,7 +53,8 @@ func TestSubscribe(t *testing.T) {
 
 	topic := "sns-to-lambda"
 	topicARN, err := FindARN(client.Config(), topic)
-	endPoint := "arn:aws:lambda:us-east-1:652115786209:function:sns"
+	endPoint, _ := lambda.FindARN(client.Config(), "sns")
+
 	protocol := "LAMBDA"
 	input := &sns.SubscribeInput{
 		Protocol:              &protocol,
@@ -70,7 +72,7 @@ func TestSubscribe(t *testing.T) {
 
 func Test_FindARN(t *testing.T) {
 
-	topicARN, err := FindARN(client.Config(), "toprog3")
+	topicARN, err := FindARN(client.Config(), "sns")
 	if err != nil {
 		t.Fatal(err)
 	}

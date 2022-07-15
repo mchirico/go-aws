@@ -201,3 +201,15 @@ func AddPermission(cfg aws.Config, input *lambda.AddPermissionInput) (*lambda.Ad
 	client := lambda.NewFromConfig(cfg)
 	return client.AddPermission(context.TODO(), input)
 }
+
+func FindARN(cfg aws.Config, functionName string) (string, error) {
+	client := lambda.NewFromConfig(cfg)
+	input := &lambda.GetFunctionConfigurationInput{
+		FunctionName: &functionName,
+	}
+	result, err := client.GetFunctionConfiguration(context.TODO(), input)
+	if err != nil {
+		return "", err
+	}
+	return *result.FunctionArn, nil
+}

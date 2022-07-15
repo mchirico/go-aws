@@ -134,3 +134,11 @@ func Test_EventSourceMapping(t *testing.T) {
 		fmt.Println(*v.FunctionArn)
 	}
 }
+
+func Test_FindARN(t *testing.T) {
+	result, err := FindARN(client.Config(), "sns")
+	if err != nil {
+		t.Fatal(err)
+	}
+	fmt.Println(result)
+}
