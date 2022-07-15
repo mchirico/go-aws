@@ -11,5 +11,5 @@ func TestList(t *testing.T) {
 }
 
 func Test_Logs(t *testing.T) {
-	Logs(client.Config(), "prog2")
+	Logs(client.Config(), "/aws/lambda/sns")
 }

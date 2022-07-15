@@ -64,7 +64,7 @@ func List(cfg aws.Config) {
 // https://www.youtube.com/watch?v=aZ-gP4rbFDo
 //aws logs tail "/aws/lambda/sns" --follow
 
-func Logs(cfg aws.Config, logGroupName string) {
+func Logs(cfg aws.Config, lgroups string) {
 
 	client := cloudwatchlogs.NewFromConfig(cfg)
 
@@ -80,9 +80,8 @@ func Logs(cfg aws.Config, logGroupName string) {
 		return
 	}
 
-	fmt.Println(result)
+	_ = result
 
-	lgroups := "/aws/lambda/sns"
 	sinput := &cloudwatchlogs.DescribeLogStreamsInput{
 		LogGroupName: &lgroups,
 		Limit:        &max,
@@ -92,16 +91,28 @@ func Logs(cfg aws.Config, logGroupName string) {
 		return
 	}
 	fmt.Println(r)
+	if len(r.LogStreams) == 0 {
+		fmt.Println("No LogStreams found")
+		return
+	}
+	logStream := r.LogStreams[0].LogStreamName
 
-	// input := &cloudwatchlogs.GetLogEventsInput{
-	// 	LogGroupName:  &logGroupName,
-	// 	LogStreamName: new(string),
-	// 	EndTime:       new(int64),
-	// 	Limit:         new(int32),
-	// 	NextToken:     new(string),
-	// 	StartFromHead: new(bool),
-	// 	StartTime:     new(int64),
-	// }
-	// client.GetLogEvents(context.TODO(), input)
+	input := &cloudwatchlogs.GetLogEventsInput{
+		LogGroupName:  &lgroups,
+		LogStreamName: logStream,
+	}
+	GetLogEvents(cfg, input)
+
+}
+
+func GetLogEvents(cfg aws.Config, input *cloudwatchlogs.GetLogEventsInput) {
+	client := cloudwatchlogs.NewFromConfig(cfg)
+	result, err := client.GetLogEvents(context.TODO(), input)
+	if err != nil {
+		return
+	}
+	for _, e := range result.Events {
+		fmt.Println(*e.Message)
+	}
 
 }
