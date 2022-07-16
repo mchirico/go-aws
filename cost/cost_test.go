@@ -12,7 +12,7 @@ import (
 func TestCost(t *testing.T) {
 
 	endDate := time.Now().Add(time.Duration(24) * time.Hour).Format("2006-01-02")
-	startDate := time.Now().Add(time.Duration(-24*10) * time.Hour).Format("2006-01-02")
+	startDate := time.Now().Add(time.Duration(-124*10) * time.Hour).Format("2006-01-02")
 	result, err := Cost(client.Config(), startDate, endDate)
 	if err != nil {
 		t.Fatal(err)

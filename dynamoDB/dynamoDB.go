@@ -110,6 +110,12 @@ func Modify(cfg aws.Config, input *dynamodb.UpdateTableInput) (*dynamodb.UpdateT
 	return result, err
 }
 
+func List(cfg aws.Config, input *dynamodb.ListTablesInput) (*dynamodb.ListTablesOutput, error) {
+	client := dynamodb.NewFromConfig(cfg)
+	result, err := client.ListTables(context.TODO(), input)
+	return result, err
+}
+
 func CreateMovie(cfg aws.Config, tableName string) {
 
 	client := dynamodb.NewFromConfig(cfg)
