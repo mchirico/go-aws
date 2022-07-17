@@ -78,20 +78,15 @@ func Delete(cfg aws.Config, tableName string) error {
 
 }
 
-func Put(cfg aws.Config, tableName string, av map[string]types.AttributeValue) error {
+func Put(cfg aws.Config, tableName string, av map[string]types.AttributeValue) (*dynamodb.PutItemOutput, error) {
 	client := dynamodb.NewFromConfig(cfg)
 	input := &dynamodb.PutItemInput{
 		Item:      av,
 		TableName: aws.String(tableName),
 	}
 
-	result, err := client.PutItem(context.TODO(), input)
-	if err != nil {
-		return err
-	}
+	return client.PutItem(context.TODO(), input)
 
-	fmt.Println(result)
-	return nil
 }
 
 func Get(cfg aws.Config, input *dynamodb.GetItemInput) (*dynamodb.GetItemOutput, error) {

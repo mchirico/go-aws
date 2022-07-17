@@ -22,6 +22,6 @@ https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html
 ## Tagging
 
 ```bash
-git tag -a v0.0.3 -m "version 0.0.3"
+git tag -a v0.0.4 -m "version 0.0.4"
 
 ```

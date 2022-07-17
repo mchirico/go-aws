@@ -35,7 +35,7 @@ func TestPut_mmcPKSK(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	err = Put(client.Config(), "mmcPKSK", av)
+	_, err = Put(client.Config(), "mmcPKSK", av)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -79,7 +79,7 @@ func TestPut(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		err = Put(client.Config(), "mmcMovies", av)
+		_, err = Put(client.Config(), "mmcMovies", av)
 		if err != nil {
 			t.Fatal(err)
 		}
