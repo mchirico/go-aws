@@ -31,7 +31,7 @@ func TestPut_PKSK(t *testing.T) {
 	p.PK = "My Data"
 	p.SK = "Something"
 	p.Status = "Good"
-	p.GSI = "GSI"
+	p.GSI = "GSI-search"
 	p.Doc = *d
 
 	av, err := attributevalue.MarshalMap(p)
