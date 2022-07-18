@@ -10,3 +10,7 @@ aws dynamodb query \
  --expression-attribute-values '{":name":{"S":"GSI-search"}}'
 
 ```
+
+## Videos
+
+https://www.youtube.com/watch?v=fiP2e-g-r4g
