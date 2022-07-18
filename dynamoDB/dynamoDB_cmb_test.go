@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"testing"
+	"time"
 )
 
 func TestD_List(t *testing.T) {
@@ -27,7 +28,7 @@ func TestD_Put(t *testing.T) {
 	p.PK = pkey
 	p.SK = skey
 	p.Status = "Good"
-	p.Doc = *d.Doc("location", "string")
+	p.Doc = *d.Doc("name", time.Now().Format(time.RFC3339), "{key:value}")
 	av, err := attributevalue.MarshalMap(p)
 	if err != nil {
 		t.Fatal(err)

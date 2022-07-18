@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/mchirico/go-aws/client"
 	"testing"
+	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
@@ -16,26 +17,28 @@ func TestCreateMovies(t *testing.T) {
 }
 
 func TestCreatePKSK(t *testing.T) {
-	Create(client.Config(), "mmcPKSK")
+	Create(client.Config(), "PKSK")
 }
 
-func TestPut_mmcPKSK(t *testing.T) {
+func TestPut_PKSK(t *testing.T) {
 
 	d := &Doc{
-		Location: "location",
-		AWS:      "bucket",
+		Name:      "Name",
+		Timestamp: time.Now().Format(time.RFC3339),
+		JSON:      "",
 	}
 	p := &PKSK{}
 	p.PK = "My Data"
 	p.SK = "Something"
 	p.Status = "Good"
+	p.GSI = "GSI"
 	p.Doc = *d
 
 	av, err := attributevalue.MarshalMap(p)
 	if err != nil {
 		t.Fatal(err)
 	}
-	_, err = Put(client.Config(), "mmcPKSK", av)
+	_, err = Put(client.Config(), "PKSK", av)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -43,7 +46,7 @@ func TestPut_mmcPKSK(t *testing.T) {
 }
 
 func Test_Get(t *testing.T) {
-	table := "mmcPKSK"
+	table := "PKSK"
 	type KEY struct {
 		PK string `json:"PK"`
 		SK string `json:"SK"`
@@ -148,7 +151,7 @@ func TestGlobalIndexPKSK(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	err := Delete(client.Config(), "mmcMovies")
+	err := Delete(client.Config(), "PKSK")
 	if err != nil {
 		t.Log(err)
 	}

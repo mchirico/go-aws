@@ -18,14 +18,16 @@ import (
 )
 
 type Doc struct {
-	Location string `json:"PK"`
-	AWS      string `json:"PK"`
+	Name      string `json:"Name"`
+	Timestamp string `json:"Timestamp"`
+	JSON      string `json:"JSON"`
 }
 
 type PKSK struct {
 	PK     string `json:"PK"`
 	SK     string `json:"SK"`
 	Status string `json:"Status"`
+	GSI    string `json:"GSI"`
 	Doc    Doc    `json:"Doc"`
 }
 
@@ -193,6 +195,10 @@ func Create(cfg aws.Config, tableName string) {
 				AttributeName: aws.String("Status"),
 				AttributeType: types.ScalarAttributeTypeS,
 			},
+			{
+				AttributeName: aws.String("GSI"),
+				AttributeType: types.ScalarAttributeTypeS,
+			},
 		},
 		KeySchema: []types.KeySchemaElement{
 			{
@@ -210,6 +216,22 @@ func Create(cfg aws.Config, tableName string) {
 				KeySchema: []types.KeySchemaElement{
 					{
 						AttributeName: aws.String("Status"),
+						KeyType:       types.KeyTypeHash,
+					},
+				},
+				Projection: &types.Projection{
+					ProjectionType: types.ProjectionTypeAll,
+				},
+				ProvisionedThroughput: &types.ProvisionedThroughput{
+					ReadCapacityUnits:  aws.Int64(10),
+					WriteCapacityUnits: aws.Int64(10),
+				},
+			},
+			{
+				IndexName: aws.String("GSI"),
+				KeySchema: []types.KeySchemaElement{
+					{
+						AttributeName: aws.String("GSI"),
 						KeyType:       types.KeyTypeHash,
 					},
 				},

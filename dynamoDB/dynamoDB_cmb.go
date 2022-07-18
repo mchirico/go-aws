@@ -79,9 +79,12 @@ func (d *DB) Get(pkey, skey string) (*PKSK, error) {
 
 }
 
-func (d *DB) Doc(location, aws string) *Doc {
-	doc := &Doc{}
-	doc.Location = location
-	doc.AWS = aws
+func (d *DB) Doc(name, timestamp, json string) *Doc {
+	doc := &Doc{
+		Name:      name,
+		Timestamp: timestamp,
+		JSON:      json,
+	}
+
 	return doc
 }
