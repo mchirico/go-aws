@@ -19,6 +19,9 @@ https://aws.amazon.com/premiumsupport/knowledge-center/kinesis-data-streams-lamb
 
 
 https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html
+
+### Dynamodb References
+https://dynobase.dev/dynamodb-golang-query-examples/#batch-write-item
 ## Tagging
 
 ```bash
