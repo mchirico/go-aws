@@ -52,7 +52,7 @@ func TestD_Put(t *testing.T) {
 
 func Test_Update(t *testing.T) {
 	pkey := "TestD_Put"
-	skey := "skey:TestD_Put2"
+	skey := "skey:TestD_Put5"
 
 	d := NewDB("pksk")
 
@@ -74,6 +74,19 @@ func Test_Update(t *testing.T) {
 	if result.PK != pkey || result.SK != skey {
 		t.Fatal("Get failed")
 	}
+}
+
+func Test_DeleteItem(t *testing.T) {
+	pkey := "TestD_Put"
+	skey := "skey:TestD_Put5"
+
+	d := NewDB("pksk")
+
+	_, err := d.DeleteItem(pkey, skey)
+	if err != nil {
+		t.Fatal(err)
+	}
+
 }
 
 func Test_Query(t *testing.T) {

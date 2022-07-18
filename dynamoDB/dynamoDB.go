@@ -123,6 +123,12 @@ func UpdateItem(cfg aws.Config, input *dynamodb.UpdateItemInput) (*dynamodb.Upda
 	return result, err
 }
 
+func DeleteItem(cfg aws.Config, input *dynamodb.DeleteItemInput) (*dynamodb.DeleteItemOutput, error) {
+	client := dynamodb.NewFromConfig(cfg)
+	result, err := client.DeleteItem(context.TODO(), input)
+	return result, err
+}
+
 func List(cfg aws.Config, input *dynamodb.ListTablesInput) (*dynamodb.ListTablesOutput, error) {
 	client := dynamodb.NewFromConfig(cfg)
 	result, err := client.ListTables(context.TODO(), input)

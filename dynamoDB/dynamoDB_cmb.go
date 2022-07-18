@@ -98,6 +98,19 @@ func (d *DB) UpdateDoc(pkey, skey string, av map[string]types.AttributeValue) (*
 
 }
 
+func (d *DB) DeleteItem(pkey, skey string) (*dynamodb.DeleteItemOutput, error) {
+
+	input := &dynamodb.DeleteItemInput{
+		Key: map[string]types.AttributeValue{
+			"PK": &types.AttributeValueMemberS{Value: pkey},
+			"SK": &types.AttributeValueMemberS{Value: skey},
+		},
+		TableName: &d.name,
+	}
+	return DeleteItem(d.cfg, input)
+
+}
+
 func (d *DB) Get(pkey, skey string) (*PKSK, error) {
 
 	type KEY struct {
