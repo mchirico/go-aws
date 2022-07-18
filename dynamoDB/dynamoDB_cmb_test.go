@@ -56,7 +56,7 @@ func Test_Update(t *testing.T) {
 
 	d := NewDB("pksk")
 
-	doc := d.Doc("Pizza Fuzz", time.Now().Format(time.RFC3339), "{key:value}")
+	doc := d.Doc("Pizza Fuzz...1 2 3 4 5", time.Now().Format(time.RFC3339), "{key:value}")
 	av, err := attributevalue.MarshalMap(doc)
 
 	m := map[string]types.AttributeValue{}
