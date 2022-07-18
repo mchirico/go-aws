@@ -2,9 +2,10 @@ package dynamoDB
 
 import (
 	"fmt"
-	"github.com/mchirico/go-aws/client"
 	"testing"
 	"time"
+
+	"github.com/mchirico/go-aws/client"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
@@ -124,7 +125,7 @@ func TestGlobalIndex(t *testing.T) {
 		}},
 		GlobalSecondaryIndexUpdates: GSI(),
 	}
-	result, err := Modify(client.Config(), input)
+	result, err := UpdateTable(client.Config(), input)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -142,7 +143,7 @@ func TestGlobalIndexPKSK(t *testing.T) {
 		}},
 		GlobalSecondaryIndexUpdates: GSI(),
 	}
-	result, err := Modify(client.Config(), input)
+	result, err := UpdateTable(client.Config(), input)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -22,20 +22,47 @@ func TestD_List(t *testing.T) {
 
 func TestD_Put(t *testing.T) {
 	pkey := "TestD_Put"
-	skey := "skey:TestD_Put"
+	skey := "skey:TestD_Put2"
 
 	d := NewDB("pksk")
 	p := &PKSK{}
 	p.PK = pkey
 	p.SK = skey
-	p.Status = "Good"
-	p.GSI = "GSI-must have value"
+	p.Status = "TimeStamp: " + time.Now().Format(time.RFC3339)
+	p.GSI = "GSI-must have value.. this is there"
 	p.Doc = *d.Doc("name", time.Now().Format(time.RFC3339), "{key:value}")
 	av, err := attributevalue.MarshalMap(p)
+
 	if err != nil {
 		t.Fatal(err)
 	}
 	_, err = Put(d.cfg, d.name, av)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	result, err := d.Get(pkey, skey)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if result.PK != pkey || result.SK != skey {
+		t.Fatal("Get failed")
+	}
+}
+
+func Test_Update(t *testing.T) {
+	pkey := "TestD_Put"
+	skey := "skey:TestD_Put2"
+
+	d := NewDB("pksk")
+
+	doc := d.Doc("Pizza Fuzz", time.Now().Format(time.RFC3339), "{key:value}")
+	av, err := attributevalue.MarshalMap(doc)
+
+	m := map[string]types.AttributeValue{}
+	m[":doc"] = &types.AttributeValueMemberM{Value: av}
+
+	_, err = d.UpdateDoc(pkey, skey, m)
 	if err != nil {
 		t.Fatal(err)
 	}

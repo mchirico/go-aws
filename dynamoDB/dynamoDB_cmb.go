@@ -83,6 +83,21 @@ func (d *DB) Put(pkey, skey, status string, doc *Doc) error {
 	return nil
 }
 
+func (d *DB) UpdateDoc(pkey, skey string, av map[string]types.AttributeValue) (*dynamodb.UpdateItemOutput, error) {
+
+	input := &dynamodb.UpdateItemInput{
+		TableName: &d.name,
+		Key: map[string]types.AttributeValue{
+			"PK": &types.AttributeValueMemberS{Value: pkey},
+			"SK": &types.AttributeValueMemberS{Value: skey},
+		},
+		UpdateExpression:          aws.String("set Doc = :doc"),
+		ExpressionAttributeValues: av,
+	}
+	return UpdateItem(d.cfg, input)
+
+}
+
 func (d *DB) Get(pkey, skey string) (*PKSK, error) {
 
 	type KEY struct {

@@ -111,9 +111,15 @@ func Query(cfg aws.Config, input *dynamodb.QueryInput) (*dynamodb.QueryOutput, e
 	return result, nil
 }
 
-func Modify(cfg aws.Config, input *dynamodb.UpdateTableInput) (*dynamodb.UpdateTableOutput, error) {
+func UpdateTable(cfg aws.Config, input *dynamodb.UpdateTableInput) (*dynamodb.UpdateTableOutput, error) {
 	client := dynamodb.NewFromConfig(cfg)
 	result, err := client.UpdateTable(context.TODO(), input)
+	return result, err
+}
+
+func UpdateItem(cfg aws.Config, input *dynamodb.UpdateItemInput) (*dynamodb.UpdateItemOutput, error) {
+	client := dynamodb.NewFromConfig(cfg)
+	result, err := client.UpdateItem(context.TODO(), input)
 	return result, err
 }
 
