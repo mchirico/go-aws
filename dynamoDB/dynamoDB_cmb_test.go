@@ -24,11 +24,12 @@ func TestD_Put(t *testing.T) {
 	pkey := "TestD_Put"
 	skey := "skey:TestD_Put"
 
-	d := NewDB("mmcPKSK")
+	d := NewDB("PKSK")
 	p := &PKSK{}
 	p.PK = pkey
 	p.SK = skey
 	p.Status = "Good"
+	p.GSI = "GSI-must have value"
 	p.Doc = *d.Doc("name", time.Now().Format(time.RFC3339), "{key:value}")
 	av, err := attributevalue.MarshalMap(p)
 	if err != nil {
