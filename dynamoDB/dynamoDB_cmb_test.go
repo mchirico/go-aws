@@ -78,7 +78,7 @@ func Test_Update(t *testing.T) {
 
 func Test_DeleteItem(t *testing.T) {
 	pkey := "TestD_Put"
-	skey := "skey:TestD_Put5"
+	skey := "skey:TestD_Put2"
 
 	d := NewDB("pksk")
 
