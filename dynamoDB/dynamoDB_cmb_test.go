@@ -9,7 +9,7 @@ import (
 )
 
 func TestD_List(t *testing.T) {
-	d := NewDB("mmcPKSK")
+	d := NewDB("pksk")
 	result, err := d.List()
 	if err != nil {
 		t.Fatal(err)
@@ -24,7 +24,7 @@ func TestD_Put(t *testing.T) {
 	pkey := "TestD_Put"
 	skey := "skey:TestD_Put"
 
-	d := NewDB("PKSK")
+	d := NewDB("pksk")
 	p := &PKSK{}
 	p.PK = pkey
 	p.SK = skey
@@ -51,7 +51,7 @@ func TestD_Put(t *testing.T) {
 
 func Test_Query(t *testing.T) {
 
-	d := NewDB("PKSK")
+	d := NewDB("pksk")
 
 	expAttValues := map[string]types.AttributeValue{}
 	expAttValues[":name"] = &types.AttributeValueMemberS{Value: "GSI-search"}

@@ -17,7 +17,7 @@ func TestCreateMovies(t *testing.T) {
 }
 
 func TestCreatePKSK(t *testing.T) {
-	Create(client.Config(), "PKSK")
+	Create(client.Config(), "pksk")
 }
 
 func TestPut_PKSK(t *testing.T) {
@@ -38,7 +38,7 @@ func TestPut_PKSK(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	_, err = Put(client.Config(), "PKSK", av)
+	_, err = Put(client.Config(), "pksk", av)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -46,7 +46,7 @@ func TestPut_PKSK(t *testing.T) {
 }
 
 func Test_Get(t *testing.T) {
-	table := "PKSK"
+	table := "pksk"
 	type KEY struct {
 		PK string `json:"PK"`
 		SK string `json:"SK"`
@@ -151,7 +151,7 @@ func TestGlobalIndexPKSK(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	err := Delete(client.Config(), "PKSK")
+	err := Delete(client.Config(), "pksk")
 	if err != nil {
 		t.Log(err)
 	}
