@@ -7,6 +7,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 )
 
 type DB struct {
@@ -27,6 +28,39 @@ func (d *DB) List() (*dynamodb.ListTablesOutput, error) {
 		Limit: &d.max,
 	}
 	return List(d.cfg, input)
+
+}
+
+/*
+https://dynobase.dev/dynamodb-golang-query-examples/#query-index
+
+svc := dynamodb.NewFromConfig(cfg)
+    out, err := svc.Query(context.TODO(), &dynamodb.QueryInput{
+        TableName:              aws.String("my-table"),
+        IndexName:              aws.String("GSI1"),
+        KeyConditionExpression: aws.String("gsi1pk = :gsi1pk and gsi1sk > :gsi1sk"),
+        ExpressionAttributeValues: map[string]types.AttributeValue{
+            ":gsi1pk": &types.AttributeValueMemberS{Value: "123"},
+            ":gsi1sk": &types.AttributeValueMemberN{Value: "20150101"},
+        },
+    })
+
+aws dynamodb query \
+ --table-name PKSK \
+ --index-name GSI \
+ --key-condition-expression "GSI = :name" \
+ --expression-attribute-values '{":name":{"S":"GSI-search"}}'
+
+*/
+func (d *DB) Query(index, keyConditionExpression string, expAttValues map[string]types.AttributeValue) (*dynamodb.QueryOutput, error) {
+	input := &dynamodb.QueryInput{
+		TableName:                 &d.name,
+		IndexName:                 &index,
+		KeyConditionExpression:    &keyConditionExpression,
+		ExpressionAttributeValues: expAttValues,
+	}
+
+	return Query(d.cfg, input)
 
 }
 

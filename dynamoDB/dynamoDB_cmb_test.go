@@ -3,6 +3,7 @@ package dynamoDB
 import (
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"testing"
 	"time"
 )
@@ -45,4 +46,24 @@ func TestD_Put(t *testing.T) {
 	if result.PK != pkey || result.SK != skey {
 		t.Fatal("Get failed")
 	}
+}
+
+func Test_Query(t *testing.T) {
+
+	d := NewDB("PKSK")
+
+	expAttValues := map[string]types.AttributeValue{}
+	expAttValues[":name"] = &types.AttributeValueMemberS{Value: "GSI-search"}
+
+	result, err := d.Query("GSI", "GSI = :name", expAttValues)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, item := range result.Items {
+		for k, v := range item {
+			fmt.Println(k, v)
+		}
+	}
+	fmt.Println(result.Items)
+
 }

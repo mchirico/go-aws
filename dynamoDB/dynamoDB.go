@@ -101,6 +101,16 @@ func Get(cfg aws.Config, input *dynamodb.GetItemInput) (*dynamodb.GetItemOutput,
 	return result, nil
 }
 
+func Query(cfg aws.Config, input *dynamodb.QueryInput) (*dynamodb.QueryOutput, error) {
+	client := dynamodb.NewFromConfig(cfg)
+
+	result, err := client.Query(context.TODO(), input)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
 func Modify(cfg aws.Config, input *dynamodb.UpdateTableInput) (*dynamodb.UpdateTableOutput, error) {
 	client := dynamodb.NewFromConfig(cfg)
 	result, err := client.UpdateTable(context.TODO(), input)
