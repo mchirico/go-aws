@@ -24,11 +24,13 @@ type Doc struct {
 }
 
 type PKSK struct {
-	PK     string `json:"PK"`
-	SK     string `json:"SK"`
-	Status string `json:"Status"`
-	GSI    string `json:"GSI"`
-	Doc    Doc    `json:"Doc"`
+	PK        string `json:"PK"`
+	SK        string `json:"SK"`
+	Status    string `json:"Status"`
+	Timestamp string `json:"Timestamp"`
+	GSI       string `json:"GSI"`
+	GSISort   string `json:"GSISort"`
+	Doc       Doc    `json:"Doc"`
 }
 
 type Item struct {
@@ -218,7 +220,15 @@ func Create(cfg aws.Config, tableName string) {
 				AttributeType: types.ScalarAttributeTypeS,
 			},
 			{
+				AttributeName: aws.String("Timestamp"),
+				AttributeType: types.ScalarAttributeTypeS,
+			},
+			{
 				AttributeName: aws.String("GSI"),
+				AttributeType: types.ScalarAttributeTypeS,
+			},
+			{
+				AttributeName: aws.String("GSISort"),
 				AttributeType: types.ScalarAttributeTypeS,
 			},
 		},
@@ -240,6 +250,10 @@ func Create(cfg aws.Config, tableName string) {
 						AttributeName: aws.String("Status"),
 						KeyType:       types.KeyTypeHash,
 					},
+					{
+						AttributeName: aws.String("Timestamp"),
+						KeyType:       types.KeyTypeRange,
+					},
 				},
 				Projection: &types.Projection{
 					ProjectionType: types.ProjectionTypeAll,
@@ -255,6 +269,10 @@ func Create(cfg aws.Config, tableName string) {
 					{
 						AttributeName: aws.String("GSI"),
 						KeyType:       types.KeyTypeHash,
+					},
+					{
+						AttributeName: aws.String("GSISort"),
+						KeyType:       types.KeyTypeRange,
 					},
 				},
 				Projection: &types.Projection{

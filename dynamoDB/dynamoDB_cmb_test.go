@@ -50,7 +50,7 @@ func TestD_Put(t *testing.T) {
 	}
 }
 
-func Test_Update(t *testing.T) {
+func Test_UpdateDoc(t *testing.T) {
 	pkey := "TestD_Put"
 	skey := "skey:TestD_Put5"
 

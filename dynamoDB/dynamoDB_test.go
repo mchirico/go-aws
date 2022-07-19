@@ -33,6 +33,8 @@ func TestPut_PKSK(t *testing.T) {
 	p.SK = "Something"
 	p.Status = "Good"
 	p.GSI = "GSI-search"
+	p.GSISort = "GSI-sort"
+	p.Timestamp = time.Now().Format(time.RFC3339)
 	p.Doc = *d
 
 	av, err := attributevalue.MarshalMap(p)
