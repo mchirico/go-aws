@@ -21,12 +21,15 @@ type CWListMetricsAPI interface {
 
 // GetMetrics gets the name, namespace, and dimension name of your Amazon CloudWatch metrics
 // Inputs:
-//     c is the context of the method call, which includes the Region
-//     api is the interface that defines the method call
-//     input defines the input arguments to the service call.
+//
+//	c is the context of the method call, which includes the Region
+//	api is the interface that defines the method call
+//	input defines the input arguments to the service call.
+//
 // Output:
-//     If success, a ListMetricsOutput object containing the result of the service call and nil
-//     Otherwise, nil and an error from the call to ListMetrics
+//
+//	If success, a ListMetricsOutput object containing the result of the service call and nil
+//	Otherwise, nil and an error from the call to ListMetrics
 func GetMetrics(c context.Context, api CWListMetricsAPI, input *cloudwatch.ListMetricsInput) (*cloudwatch.ListMetricsOutput, error) {
 	return api.ListMetrics(c, input)
 }
