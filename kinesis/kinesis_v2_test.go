@@ -2,6 +2,7 @@ package kinesis
 
 import (
 	"fmt"
+	"sort"
 	"testing"
 	"time"
 )
@@ -37,11 +38,9 @@ func TestNewP2(t *testing.T) {
 
 func Test_put(t *testing.T) {
 	p := NewP("stream0")
-	p.Put("key", []byte("1. Data 1 2 3..."))
-	p.Put("key", []byte("2. Data 1 2 3..."))
-	p.Put("key", []byte("3. Data 1 2 3..."))
+
 	for i := 0; i <= 12; i++ {
-		p.Put("keyX", []byte(fmt.Sprintf("3. Data 1 2 3...%s", time.Now().Format(time.Kitchen))))
+		p.Put(fmt.Sprintf("keyX:%d", i), []byte(fmt.Sprintf("3. Data 1 2 3...%s", time.Now().Format(time.Kitchen))))
 	}
 
 }
@@ -63,13 +62,22 @@ func Test_Get(t *testing.T) {
 	if err != nil {
 		t.FailNow()
 	}
+	pkey := []string{}
 	for _, v := range result.Records {
 
-		fmt.Println(string(v.Data))
-		fmt.Println(*v.PartitionKey)
-		fmt.Println(*v.SequenceNumber)
+		//fmt.Println(string(v.Data))
+		//fmt.Println(*v.PartitionKey)
+		pkey = append(pkey, *v.PartitionKey)
+		for i, v := range pkey {
+			fmt.Println(i, v)
+		}
+		//fmt.Println(*v.SequenceNumber)
 	}
 
+	sort.Slice(pkey, func(i, j int) bool {
+		return pkey[j] < pkey[i]
+	})
+	fmt.Println(pkey)
 }
 
 func Test_Register(t *testing.T) {
