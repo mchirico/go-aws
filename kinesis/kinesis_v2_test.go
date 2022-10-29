@@ -7,7 +7,7 @@ import (
 )
 
 func TestNewP(t *testing.T) {
-	p := NewP("mmc")
+	p := NewP("stream0")
 	p.Create()
 
 	p.Put("key", []byte("1. Data 1 2 3..."))
@@ -36,7 +36,7 @@ func TestNewP2(t *testing.T) {
 }
 
 func Test_put(t *testing.T) {
-	p := NewP("mmc")
+	p := NewP("stream0")
 	p.Put("key", []byte("1. Data 1 2 3..."))
 	p.Put("key", []byte("2. Data 1 2 3..."))
 	p.Put("key", []byte("3. Data 1 2 3..."))
@@ -58,7 +58,7 @@ func Test_put2(t *testing.T) {
 }
 
 func Test_Get(t *testing.T) {
-	p := NewP("mmc")
+	p := NewP("stream0")
 	result, err := p.Get()
 	if err != nil {
 		t.FailNow()
