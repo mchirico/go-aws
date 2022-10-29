@@ -8,7 +8,7 @@ import (
 )
 
 func TestNewP(t *testing.T) {
-	p := NewP("stream0")
+	p := NewP("stream0_10")
 	p.Create()
 
 	p.Put("key", []byte("1. Data 1 2 3..."))

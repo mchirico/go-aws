@@ -27,6 +27,11 @@ func NewP(name string) *P {
 	}
 }
 
+func (p *P) ShareCount(i int32) *int32 {
+	p.shardCount = &i
+	return p.shardCount
+}
+
 func (p *P) seqOrder() *string {
 	seq := fmt.Sprintf("%d", p.seq)
 	p.seq += 1
