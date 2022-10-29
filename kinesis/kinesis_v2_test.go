@@ -2,13 +2,13 @@ package kinesis
 
 import (
 	"fmt"
+	"sort"
 	"testing"
 	"time"
 )
 
 func TestNewP(t *testing.T) {
-	p := NewP("mmc")
-	p.Create()
+	p := NewP("stream0_10")
 
 	p.Put("key", []byte("1. Data 1 2 3..."))
 	p.Put("key", []byte("2. Data 1 2 3..."))
@@ -18,6 +18,7 @@ func TestNewP(t *testing.T) {
 
 func TestNewPCreateonly(t *testing.T) {
 	p := NewP("mmc")
+	p.ShareCount(10)
 	p.Create()
 
 }
@@ -36,12 +37,10 @@ func TestNewP2(t *testing.T) {
 }
 
 func Test_put(t *testing.T) {
-	p := NewP("mmc")
-	p.Put("key", []byte("1. Data 1 2 3..."))
-	p.Put("key", []byte("2. Data 1 2 3..."))
-	p.Put("key", []byte("3. Data 1 2 3..."))
+	p := NewP("stream0_10")
+
 	for i := 0; i <= 12; i++ {
-		p.Put("keyX", []byte(fmt.Sprintf("3. Data 1 2 3...%s", time.Now().Format(time.Kitchen))))
+		p.Put(fmt.Sprintf("shard10:%d", i), []byte(fmt.Sprintf("3. Data 1 2 3...%s", time.Now().Format(time.Kitchen))))
 	}
 
 }
@@ -57,19 +56,40 @@ func Test_put2(t *testing.T) {
 
 }
 
-func Test_Get(t *testing.T) {
-	p := NewP("mmc")
-	result, err := p.Get()
+func TestP_ListShards(t *testing.T) {
+	p := NewP("stream0_10")
+	shards, err := p.ListShards()
 	if err != nil {
 		t.FailNow()
 	}
-	for _, v := range result.Records {
-
-		fmt.Println(string(v.Data))
-		fmt.Println(*v.PartitionKey)
-		fmt.Println(*v.SequenceNumber)
+	for _, v := range shards.Shards {
+		fmt.Println(*v.ShardId)
 	}
 
+}
+
+func Test_Get(t *testing.T) {
+	p := NewP("stream0_10")
+	result, err := p.Get("shardId-000000000000")
+	if err != nil {
+		t.FailNow()
+	}
+	pkey := []string{}
+	for _, v := range result.Records {
+
+		//fmt.Println(string(v.Data))
+		//fmt.Println(*v.PartitionKey)
+		pkey = append(pkey, *v.PartitionKey)
+		for i, v := range pkey {
+			fmt.Println(i, v)
+		}
+		//fmt.Println(*v.SequenceNumber)
+	}
+
+	sort.Slice(pkey, func(i, j int) bool {
+		return pkey[j] < pkey[i]
+	})
+	fmt.Println(pkey)
 }
 
 func Test_Register(t *testing.T) {

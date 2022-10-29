@@ -27,6 +27,11 @@ func List(cfg aws.Config, input *kinesis.ListStreamsInput) (*kinesis.ListStreams
 
 }
 
+func ListShards(cfg aws.Config, input *kinesis.ListShardsInput) (*kinesis.ListShardsOutput, error) {
+	client := kinesis.NewFromConfig(cfg)
+	return client.ListShards(context.TODO(), input)
+}
+
 func DescribeStream(cfg aws.Config, input *kinesis.DescribeStreamInput) (*kinesis.DescribeStreamOutput, error) {
 
 	client := kinesis.NewFromConfig(cfg)
@@ -46,11 +51,14 @@ func Put(cfg aws.Config, input *kinesis.PutRecordInput) (*kinesis.PutRecordOutpu
 
 }
 
-func Get(cfg aws.Config, name string) (*kinesis.GetRecordsOutput, error) {
+func Get(cfg aws.Config, name string, shardId ...string) (*kinesis.GetRecordsOutput, error) {
+	sID := "shardId-000000000000"
+	if shardId != nil {
+		sID = shardId[0]
+	}
 
-	shardId := "shardId-000000000000"
 	input := &kinesis.GetShardIteratorInput{
-		ShardId:           &shardId,
+		ShardId:           &sID,
 		ShardIteratorType: types.ShardIteratorTypeTrimHorizon,
 		StreamName:        &name,
 	}
