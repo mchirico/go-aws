@@ -56,6 +56,18 @@ func Test_put2(t *testing.T) {
 
 }
 
+func TestP_ListShards(t *testing.T) {
+	p := NewP("stream0_10")
+	shards, err := p.ListShards()
+	if err != nil {
+		t.FailNow()
+	}
+	for _, v := range shards.Shards {
+		fmt.Println(*v.ShardId)
+	}
+
+}
+
 func Test_Get(t *testing.T) {
 	p := NewP("stream0_10")
 	result, err := p.Get("shardId-000000000000")
