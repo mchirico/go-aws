@@ -64,13 +64,13 @@ func (p *P) List() (*kinesis.ListStreamsOutput, error) {
 	return List(p.client, input)
 }
 
-func (p *P) ListShards(stream string) (*kinesis.ListShardsOutput, error) {
+func (p *P) ListShards() (*kinesis.ListShardsOutput, error) {
 	var max int32 = 10000
 	shardId := "shardId-000000000000"
 	input := &kinesis.ListShardsInput{
 		ExclusiveStartShardId: &shardId,
 		MaxResults:            &max,
-		StreamName:            &stream,
+		StreamName:            p.name,
 	}
 	return ListShards(p.client, input)
 }
