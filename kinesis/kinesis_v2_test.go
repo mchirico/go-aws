@@ -9,7 +9,6 @@ import (
 
 func TestNewP(t *testing.T) {
 	p := NewP("stream0_10")
-	p.Create()
 
 	p.Put("key", []byte("1. Data 1 2 3..."))
 	p.Put("key", []byte("2. Data 1 2 3..."))
@@ -19,6 +18,7 @@ func TestNewP(t *testing.T) {
 
 func TestNewPCreateonly(t *testing.T) {
 	p := NewP("mmc")
+	p.ShareCount(10)
 	p.Create()
 
 }
@@ -37,10 +37,10 @@ func TestNewP2(t *testing.T) {
 }
 
 func Test_put(t *testing.T) {
-	p := NewP("stream0")
+	p := NewP("stream0_10")
 
 	for i := 0; i <= 12; i++ {
-		p.Put(fmt.Sprintf("keyX:%d", i), []byte(fmt.Sprintf("3. Data 1 2 3...%s", time.Now().Format(time.Kitchen))))
+		p.Put(fmt.Sprintf("shard10:%d", i), []byte(fmt.Sprintf("3. Data 1 2 3...%s", time.Now().Format(time.Kitchen))))
 	}
 
 }
@@ -57,8 +57,8 @@ func Test_put2(t *testing.T) {
 }
 
 func Test_Get(t *testing.T) {
-	p := NewP("stream0")
-	result, err := p.Get()
+	p := NewP("stream0_10")
+	result, err := p.Get("shardId-000000000000")
 	if err != nil {
 		t.FailNow()
 	}

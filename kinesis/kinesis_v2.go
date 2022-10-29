@@ -52,8 +52,8 @@ func (p *P) Create() (*kinesis.CreateStreamOutput, error) {
 
 }
 
-func (p *P) Get() (*kinesis.GetRecordsOutput, error) {
-	return Get(p.client, *p.name)
+func (p *P) Get(shardId ...string) (*kinesis.GetRecordsOutput, error) {
+	return Get(p.client, *p.name, shardId...)
 }
 
 func (p *P) List() (*kinesis.ListStreamsOutput, error) {
@@ -62,6 +62,17 @@ func (p *P) List() (*kinesis.ListStreamsOutput, error) {
 		Limit: &max,
 	}
 	return List(p.client, input)
+}
+
+func (p *P) ListShards(stream string) (*kinesis.ListShardsOutput, error) {
+	var max int32 = 10000
+	shardId := "shardId-000000000000"
+	input := &kinesis.ListShardsInput{
+		ExclusiveStartShardId: &shardId,
+		MaxResults:            &max,
+		StreamName:            &stream,
+	}
+	return ListShards(p.client, input)
 }
 
 func (p *P) DescribeStream() (*kinesis.DescribeStreamOutput, error) {
