@@ -3,6 +3,7 @@ package bucket
 import (
 	"bytes"
 	"github.com/mchirico/go-aws/client"
+	"io"
 	"io/ioutil"
 	"strconv"
 	"testing"
@@ -60,7 +61,7 @@ func TestGetObjectFromS3(t *testing.T) {
 					}
 
 					return &s3.GetObjectOutput{
-						Body: ioutil.NopCloser(bytes.NewReader([]byte("this is the body foo bar baz"))),
+						Body: io.NopCloser(bytes.NewReader([]byte("this is the body foo bar baz"))),
 					}, nil
 				})
 			},
