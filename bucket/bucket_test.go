@@ -2,9 +2,9 @@ package bucket
 
 import (
 	"bytes"
+	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
 	"github.com/mchirico/go-aws/client"
 	"io"
-	"io/ioutil"
 	"strconv"
 	"testing"
 
@@ -27,7 +27,7 @@ func GetObjectFromS3(ctx context.Context, api S3GetObjectAPI, bucket, key string
 	}
 	defer object.Body.Close()
 
-	return ioutil.ReadAll(object.Body)
+	return io.ReadAll(object.Body)
 }
 
 type mockGetObjectAPI func(ctx context.Context, params *s3.GetObjectInput, optFns ...func(*s3.Options)) (*s3.GetObjectOutput, error)
@@ -88,3 +88,74 @@ func TestBucket_RunList(t *testing.T) {
 	b := NewBucket()
 	b.List(client.Config())
 }
+
+type S3PutObjectAPI interface {
+	PutObject(ctx context.Context, params *s3.PutObjectInput, optFns ...func(*s3.Options)) (*s3.PutObjectOutput, error)
+}
+
+type ManagerAPI interface {
+	Upload(ctx context.Context, params *s3.PutObjectInput, optFns ...func(*manager.Uploader)) (*manager.UploadOutput, error)
+}
+
+// TODO: finish
+func UploadObjectToS3WithManager(ctx context.Context,
+	api ManagerAPI, bucket, key string, r io.Reader) (*manager.UploadOutput, error) {
+
+	object, err := api.Upload(ctx, &s3.PutObjectInput{
+		Bucket: &bucket,
+		Key:    &key,
+		Body:   r,
+	})
+	if err != nil {
+		return nil, err
+	}
+	_ = object
+	return nil, nil
+}
+
+type mockPutObjectAPI func(ctx context.Context, params *s3.PutObjectInput, optFns ...func(*s3.Options)) (*s3.PutObjectOutput, error)
+
+func (m mockPutObjectAPI) PutObject(ctx context.Context, params *s3.PutObjectInput, optFns ...func(*s3.Options)) (*s3.PutObjectOutput, error) {
+	return m(ctx, params, optFns...)
+}
+
+func TestUploadObjectToS3(t *testing.T) {
+	cases := []struct {
+		client func(t *testing.T) S3PutObjectAPI
+		bucket string
+		key    string
+		expect []byte
+	}{
+		{
+			client: func(t *testing.T) S3PutObjectAPI {
+				return mockPutObjectAPI(func(ctx context.Context, params *s3.PutObjectInput, optFns ...func(*s3.Options)) (*s3.PutObjectOutput, error) {
+					t.Helper()
+					if params.Bucket == nil {
+						t.Fatal("expect bucket to not be nil")
+					}
+					if e, a := "fooBucket", *params.Bucket; e != a {
+						t.Errorf("expect %v, got %v", e, a)
+					}
+					if params.Key == nil {
+						t.Fatal("expect key to not be nil")
+					}
+					if e, a := "barKey", *params.Key; e != a {
+						t.Errorf("expect %v, got %v", e, a)
+					}
+
+					return &s3.PutObjectOutput{}, nil
+				})
+			},
+			bucket: "fooBucket",
+			key:    "barKey",
+			expect: []byte("this is the body foo bar baz"),
+		},
+	}
+
+	for i, tt := range cases {
+		t.Run(strconv.Itoa(i), func(t *testing.T) {
+			ctx := context.TODO()
+			_, err :=
+}
+
+
