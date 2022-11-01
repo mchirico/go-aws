@@ -1,11 +1,10 @@
 package dev
 
 import (
+	"bytes"
 	"context"
-	"encoding/csv"
 	"fmt"
 	"github.com/mchirico/go-aws/client"
-	"strings"
 	"testing"
 )
 
@@ -16,14 +15,17 @@ func Test_Upload(t *testing.T) {
 Ken,Thompson,ken
 "Robert","Griesemer","gri"
 `
-
+	var buf bytes.Buffer
+	buf.Write([]byte(in))
 	s := &Stream{
-		Reader: csv.NewReader(strings.NewReader(in)),
+		Buffer: buf,
+		Reader: bytes.NewReader([]byte(in)),
 	}
 
+	_ = s
 	r, err := Upload(context.TODO(),
 		client.Config(),
-		"bucket", "key", s)
+		"sharepoint-poc", "key", s)
 	if err != nil {
 		t.Fatal(err)
 	}

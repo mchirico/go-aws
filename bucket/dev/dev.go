@@ -3,7 +3,6 @@ package dev
 import (
 	"bytes"
 	"context"
-	"encoding/csv"
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
@@ -13,7 +12,7 @@ import (
 
 type Stream struct {
 	Connection io.Closer
-	Reader     *csv.Reader
+	Reader     io.Reader
 	Buffer     bytes.Buffer
 	Headers    []string
 	BytesRead  uint64
@@ -45,10 +44,12 @@ func (s *Stream) Read(b []byte) (n int, err error) {
 }
 
 func (s *Stream) LoadNextLine() error {
-	line, err := s.Reader.Read()
+	line, err := s.Buffer.ReadBytes('\n')
 	if err != nil {
 		if err == io.EOF {
-			_ = s.Connection.Close()
+			if s.Connection != nil {
+				_ = s.Connection.Close()
+			}
 		}
 		return err
 	}
