@@ -14,7 +14,7 @@ type Stream struct {
 	Connection io.Closer
 	Reader     io.Reader
 	Buffer     bytes.Buffer
-	Headers    []string
+	F          func() (line []byte, err error)
 	BytesRead  uint64
 }
 
@@ -44,7 +44,7 @@ func (s *Stream) Read(b []byte) (n int, err error) {
 }
 
 func (s *Stream) LoadNextLine() error {
-	line, err := s.Buffer.ReadBytes('\n')
+	line, err := s.F()
 	if err != nil {
 		if err == io.EOF {
 			if s.Connection != nil {
